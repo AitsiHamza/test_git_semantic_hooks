@@ -1,0 +1,11 @@
+#!/bin/bash
+
+commitMessage=$(cat $1)
+
+pattern="(feat|fix|docs|style|refactor|perf|test|chore):.*"
+
+if   [[ ! "$commitMessage" =~ $pattern ]]; then
+    echo "Your commit title did not follow semantic versioning: $commitMessage"
+    echo "Please use one of these : 'feat:' OR 'fix:' OR 'docs:' OR 'style:' OR 'refactor:' OR 'perf:' OR 'test:' OR 'chore:' "
+    exit 1
+fi
