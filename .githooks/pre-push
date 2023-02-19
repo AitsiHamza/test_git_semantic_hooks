@@ -1,0 +1,24 @@
+#!/bin/sh
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+remote=$1
+# 1
+tag_name=$(grep -E 'refs/tags/([^ ]*) ' </dev/stdin | cut -d ' ' -f 1 | sed 's/refs\/tags\///g')
+if [ ! -z $tag_name ]; then
+  # A tag is being pushed, no need to make any checks
+  exit 0
+fi
+# 2
+main_branch_name=`git symbolic-ref refs/remotes/$remote/HEAD | sed "s@^refs/remotes/$remote/@@"`
+# 3
+current_branch_name=`git branch --show-current`
+# 4
+commit_log=`git log --format=%B $remote/$main_branch_name..$current_branch_name`
+# 5
+regex="(PROJ|proj)-[0-9]+"
+if [[ ! $commit_log =~ $regex ]]; then
+  echo "${RED}ERROR: No JIRA ticket ID was found${NC}" >&2
+  echo "Please, include a ticket ID in one of your commits" >&2
+  exit 1
+fi
+exit 0

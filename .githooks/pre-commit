@@ -1,0 +1,13 @@
+#!/bin/sh
+# 1
+branch=`git branch --show-current`
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+# 2
+if [[ "$branch" =~ (master|main) ]]; then
+  echo "${RED}ERROR: Commits to $branch are not allowed${NC}" >&2
+  echo "Please, create a new branch" >&2
+  exit 1
+else
+  exit 0
+fi
