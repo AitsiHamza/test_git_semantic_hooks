@@ -1,6 +1,6 @@
 run this command to tell git of the location of your git hooks (it helps with sharing hooks with other team members)
 
-	git config core.hooksPath.githooks
+	git config core.hooksPath .githooks
 
 remove .sample extention if you want to use them
 
